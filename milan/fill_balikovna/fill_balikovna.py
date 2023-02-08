@@ -30,7 +30,7 @@ def fill_form(sender_first_name,sender_second_name,sender_email,sender_phone_pho
     service = Service(executable_path=set_up.chrome_path)
     driver = webdriver.Chrome(service=service)
     driver.get(balikovna_web)   #open balikovna web to send package
-
+    
     text_box = driver.find_element(value="my-package_senderFirstName")
     text_box.send_keys(sender_first_name)
 
@@ -120,6 +120,13 @@ def get_orders(file_path):
     print(f"Pocet nacitanych objednavok {len(cz_orders)}.")
     return cz_orders
 
+def del_number(number):
+    if len(number) > 9:
+        del_dig = len(number) - 9
+        return number[del_dig:]
+    else:
+        return number
+
 #-----------------------------------------------------------------------------------------------------
 
 sender_info = {
@@ -134,4 +141,4 @@ orders = get_orders(file_path)
 
 for order in orders:
     fill_form(sender_info["sender_first_name"],sender_info["sender_second_name"],sender_info["sender_email"], 
-        sender_info["sender_phone_phone"],order.first_name,order.second_name,order.email,order.phone,order.balikovna)
+        sender_info["sender_phone_phone"],order.first_name,order.second_name,order.email, del_number(order.phone),order.balikovna)
